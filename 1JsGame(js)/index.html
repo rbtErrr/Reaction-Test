@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reaction Test</title>
+    <style type="text/css">
+        #rect {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            display: none;
+        }
+
+        .firstP{
+            font-family: "Roboto Slab", Serif;
+            font-weight: bold;
+            font-size: 18pt;
+        }
+
+        .secondP{
+            font-family: "Roboto", Serif;
+            font-size: 16pt;
+        }
+
+    </style>
+</head>
+<body>
+<p class="firstP">This is reaction test game</p>
+<p class="secondP">Your result is : <span id="result"></span></p>
+<div id="rect"></div>
+<script type="text/javascript">
+    var createdTime; var clickedTime; var reactionTime;
+    var box = document.getElementById("rect");
+    var timeCreated = Math.floor(Math.random() * 3000);
+
+//делаю форму ректангла
+    function rectForming() {
+        if(Math.random()*2>1){
+            box.style.borderRadius = "50%";
+        }else{
+            box.style.borderRadius = "5%";
+        }
+
+    }
+
+    //делаю случайную позицию
+    function randomPositioning() {
+        box.style.position = "relative";
+        box.style.left = Math.floor(Math.random()*500) + "px";
+        box.style.top = Math.floor(Math.random()*500) + "px";
+    }
+
+//делаю рандомный цвет. Нашёл на стаковерфлоу, теперь по памяти.
+    function randomColor(){
+        var color = "#";
+        var colorLetters = "123456789ABCDEF".split(""); //split разбивает на отдельные элементы
+        for (var i = 0; i<6; i++){
+            color +=colorLetters[Math.floor(Math.random()*15)];
+        }
+        return color;
+    }
+
+//1.create Rectangle
+    function makeRect() {
+        setTimeout(function () {
+                    rectForming();
+                    randomPositioning();
+                    box.style.backgroundColor = randomColor();  //мог конечно сделать невозвращаемую ф-ю, но решил разбавить.
+                    createdTime = Date.now();
+                     box.style.display = "block";
+                }
+                , timeCreated);
+
+    }
+
+
+    makeRect();
+
+//2.when Rectangle click i take time to result and create new rect.
+    box.onclick = function () {
+        box.style.display = "none";
+        clickedTime = Date.now();
+        makeRect();
+        reactionTime = (clickedTime-createdTime)/1000;
+        document.getElementById("result").innerHTML = reactionTime;
+
+    };
+
+
+
+</script>
+</body>
+</html>

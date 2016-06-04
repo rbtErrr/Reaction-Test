@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="jquery-1.12.4.js" type="text/javascript"></script>
+    <title>Reaction Test</title>
+    <style type="text/css">
+         #rect {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            display: none;
+        }
+
+        .firstP{
+            font-family: "Roboto Slab", Serif;
+            font-weight: bold;
+            font-size: 18pt;
+        }
+
+        .secondP{
+            font-family: "Roboto", Serif;
+            font-size: 16pt;
+        }
+
+
+    </style>
+</head>
+<body>
+<p class="firstP">This is reaction test game</p>
+<p class="secondP">Your result is : <span class="result"></span></p>
+<div id="rect"></div>
+<script>
+    var rectangle = $("#rect");
+    var createdTime; var clickedTime; var reactionTime;
+
+    function randomColor() {
+        var color = "#";
+        var colorLetters = "1234567890ABCDE".split("");
+        for (var i = 0; i<6; i++){
+            color +=colorLetters[Math.floor(Math.random()*15)];
+        }
+
+        rectangle.css("background-color", color);
+    }
+
+    function rectPositionAndForm() {
+        if(Math.random()*2>1){
+            rectangle.css("border-radius", "50%");
+        }else {
+            rectangle.css("border-radius", "0%");
+        }
+
+        rectangle.css("position", "relative");
+        rectangle.css("left", Math.random()*500 + "px");
+        rectangle.css("top", Math.random()*500 + "px");
+    }
+
+
+
+    function makingRectangle() {
+        var time = Math.floor(Math.random()*4000); //милисекунды же в setTimeout
+
+        setTimeout(function () {
+//            rectangle.css("display", "block");
+            rectPositionAndForm();
+            randomColor();
+            rectangle.show();
+            createdTime = Date.now();
+        }, time);
+    }
+
+    makingRectangle();
+
+
+    rectangle.click(function () {
+//            rectangle.css("display", "none");
+//        rectangle.hide();
+//        c эффектом плавности
+        rectangle.fadeOut();
+        clickedTime = Date.now();
+        reactionTime = (clickedTime - createdTime)/1000;
+        $(".result").html(reactionTime);
+        makingRectangle();
+
+    });
+
+</script>
+</body>
+</html>
